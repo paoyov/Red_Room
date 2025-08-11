@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Room - Dark Web Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-content">
+                <h1 class="glitch" data-text="RED ROOM">RED ROOM</h1>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <p class="loading-text">Conectando a la red oscura...</p>
+            </div>
+        </div>
+
+        <!-- Main Interface -->
+        <div id="main-interface" class="main-interface hidden">
+            <!-- Header -->
+            <header class="header">
+                <div class="logo">RED_ROOM.exe</div>
+                <div class="status">
+                    <span class="status-dot"></span>
+                    <span class="status-text">CONECTADO</span>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Left Sidebar - Navigation -->
+                <div class="left-sidebar">
+                    <div class="sidebar-section">
+                        <h4>📺 Canales en Vivo</h4>
+                        <div class="live-channels">
+                            <div class="channel-item">
+                                <div class="channel-avatar">👤</div>
+                                <div class="channel-info">
+                                    <div class="channel-name">Dark_Streamer</div>
+                                    <div class="channel-game">Red Room Experience</div>
+                                    <div class="channel-viewers">1.2k espectadores</div>
+                                </div>
+                                <div class="live-indicator">🔴</div>
+                            </div>
+                            <div class="channel-item">
+                                <div class="channel-avatar">👤</div>
+                                <div class="channel-info">
+                                    <div class="channel-name">Anonymous_Live</div>
+                                    <div class="channel-game">Dark Web Chat</div>
+                                    <div class="channel-viewers">847 espectadores</div>
+                                </div>
+                                <div class="live-indicator">🔴</div>
+                            </div>
+                            <div class="channel-item">
+                                <div class="channel-avatar">👤</div>
+                                <div class="channel-info">
+                                    <div class="channel-name">RedRoom_Master</div>
+                                    <div class="channel-game">Live Horror</div>
+                                    <div class="channel-viewers">2.1k espectadores</div>
+                                </div>
+                                <div class="live-indicator">🔴</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h4>👥 Usuarios Activos</h4>
+                        <div class="active-users" id="active-users">
+                            <div class="user-item">
+                                <span class="user-name">Usuario_8472</span>
+                                <span class="user-status online"></span>
+                            </div>
+                            <div class="user-item">
+                                <span class="user-name">Dark_Stranger</span>
+                                <span class="user-status online"></span>
+                            </div>
+                            <div class="user-item">
+                                <span class="user-name">Anonymous_001</span>
+                                <span class="user-status offline"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Content - Video Player and Info -->
+                <div class="center-content">
+                    <!-- Video Player -->
+                    <div class="video-player-container">
+                        <div class="video-player" id="video-player">
+                            <div class="video-overlay">
+                                <div class="live-badge">🔴 EN VIVO</div>
+                                <div class="viewer-count-badge">👥 <span id="viewer-count">1,247</span></div>
+                                <div class="video-controls">
+                                    <button class="control-btn" id="play-pause-btn">⏸️</button>
+                                    <button class="control-btn" id="mute-btn">🔊</button>
+                                    <button class="control-btn">⚙️</button>
+                                </div>
+                            </div>
+                               <div class="video-container">
+                                   <video id="main-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; background: #000; display: block;">
+                                       <source src="video.mp4/red.mp4" type="video/mp4">
+                                       Tu navegador no soporta el elemento de video.
+                                   </video>
+                                   <div id="video-status" style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; z-index: 50;">
+                                       <span id="status-text">Cargando video...</span>
+                                   </div>
+                                   <div id="video-info" style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; z-index: 50;">
+                                       <span id="info-text"></span>
+                                   </div>
+                                   <div id="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 20; display: flex; align-items: center; justify-content: center;">
+                                       <div style="text-align: center; color: white; background: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; border: 3px solid #ff0000;">
+                                           <h3 style="color: #ff0000; margin-bottom: 20px; font-size: 24px;">🎬 Video Listo</h3>
+                                           <p style="margin-bottom: 25px; font-size: 18px;">El video red.mp4 está cargado y listo para reproducirse</p>
+                                           <button onclick="startVideo()" style="background: linear-gradient(45deg, #ff0000, #cc0000); color: white; border: none; padding: 20px 40px; border-radius: 10px; cursor: pointer; font-size: 20px; font-weight: bold; box-shadow: 0 6px 20px rgba(255,0,0,0.4);">▶️ Reproducir Video</button>
+                                       </div>
+                                   </div>
+                               </div>
+                        </div>
+                    </div>
+
+                    <!-- Streamer Info -->
+                    <div class="streamer-info">
+                        <div class="streamer-avatar">👤</div>
+                        <div class="streamer-details">
+                            <div class="streamer-name">Dark_Streamer</div>
+                            <div class="stream-title">Red Room - Dark Web Experience</div>
+                            <div class="stream-category">Categoría: Horror • Dark Web</div>
+                            <div class="stream-tags">
+                                <span class="tag">#RedRoom</span>
+                                <span class="tag">#DarkWeb</span>
+                                <span class="tag">#Horror</span>
+                                <span class="tag">#Live</span>
+                            </div>
+                        </div>
+                        <div class="streamer-actions">
+                            <button class="follow-btn">+ Seguir</button>
+                            <button class="subscribe-btn">💎 Suscribirse</button>
+                        </div>
+                    </div>
+
+                                         <!-- Recommended Streams -->
+                     <div class="recommended-streams">
+                         <h3>📺 Canales recomendados</h3>
+                         <div class="streams-grid">
+                             <div class="stream-card">
+                                 <div class="stream-thumbnail">
+                                     <div class="disconnected-icon">⚫</div>
+                                     <div class="disconnected-text">DESCONECTADO</div>
+                                     <div class="viewer-count">2.1k</div>
+                                 </div>
+                                 <div class="stream-info">
+                                     <div class="stream-title">Anonymous Chat Room</div>
+                                     <div class="streamer-name">Dark_Anonymous</div>
+                                     <div class="stream-category">Dark Web • Chat</div>
+                                 </div>
+                             </div>
+                             <div class="stream-card">
+                                 <div class="stream-thumbnail">
+                                     <div class="disconnected-icon">💀</div>
+                                     <div class="disconnected-text">DESCONECTADO</div>
+                                     <div class="viewer-count">847</div>
+                                 </div>
+                                 <div class="stream-info">
+                                     <div class="stream-title">Red Room Horror</div>
+                                     <div class="streamer-name">Horror_Master</div>
+                                     <div class="stream-category">Horror • Live</div>
+                                 </div>
+                             </div>
+                             <div class="stream-card">
+                                 <div class="stream-thumbnail">
+                                     <div class="disconnected-icon">🌑</div>
+                                     <div class="disconnected-text">DESCONECTADO</div>
+                                     <div class="viewer-count">1.5k</div>
+                                 </div>
+                                 <div class="stream-info">
+                                     <div class="stream-title">Dark Web Stories</div>
+                                     <div class="streamer-name">Story_Teller</div>
+                                     <div class="stream-category">Stories • Dark</div>
+                                 </div>
+                             </div>
+                             <div class="stream-card">
+                                 <div class="stream-thumbnail">
+                                     <div class="disconnected-icon">⚡</div>
+                                     <div class="disconnected-text">DESCONECTADO</div>
+                                     <div class="viewer-count">3.2k</div>
+                                 </div>
+                                 <div class="stream-info">
+                                     <div class="stream-title">Deep Web Exploration</div>
+                                     <div class="streamer-name">WebExplorer</div>
+                                     <div class="stream-category">Exploration • Dark</div>
+                                 </div>
+                             </div>
+                             <div class="stream-card">
+                                 <div class="stream-thumbnail">
+                                     <div class="disconnected-icon">🕯️</div>
+                                     <div class="disconnected-text">DESCONECTADO</div>
+                                     <div class="viewer-count">1.8k</div>
+                                 </div>
+                                 <div class="stream-info">
+                                     <div class="stream-title">Horror Stories Live</div>
+                                     <div class="streamer-name">NightTeller</div>
+                                     <div class="stream-category">Stories • Horror</div>
+                                 </div>
+                             </div>
+                             <div class="stream-card">
+                                 <div class="stream-thumbnail">
+                                     <div class="disconnected-icon">🔮</div>
+                                     <div class="disconnected-text">DESCONECTADO</div>
+                                     <div class="viewer-count">2.7k</div>
+                                 </div>
+                                 <div class="stream-info">
+                                     <div class="stream-title">Dark Web Secrets</div>
+                                     <div class="streamer-name">SecretKeeper</div>
+                                     <div class="stream-category">Secrets • Dark</div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                     <!-- Additional Content for Scroll -->
+                     <div class="additional-content">
+                         <h3>🔍 Más contenido de la Dark Web</h3>
+                         <div class="content-grid">
+                             <div class="content-item">
+                                 <h4>📰 Últimas noticias</h4>
+                                 <p>Nuevas transmisiones de Red Room detectadas en la red oscura. Los moderadores están trabajando para mantener la seguridad.</p>
+                             </div>
+                             <div class="content-item">
+                                 <h4>🎭 Eventos próximos</h4>
+                                 <p>Gran transmisión especial esta noche. No te pierdas la experiencia más intensa de Red Room.</p>
+                             </div>
+                             <div class="content-item">
+                                 <h4>💀 Historias reales</h4>
+                                 <p>Relatos de usuarios que han explorado las profundidades de la Dark Web. Historias que te helarán la sangre.</p>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+
+                <!-- Right Sidebar - Live Chat -->
+                <div class="right-sidebar">
+                    <div class="chat-header">
+                        <h3>💬 Chat en Vivo</h3>
+                        <div class="chat-controls">
+                            <button class="chat-btn">⚙️</button>
+                            <button class="chat-btn">📌</button>
+                        </div>
+                    </div>
+
+                    <div class="live-chat-messages" id="live-chat-messages">
+                        <!-- Live chat messages will be added here -->
+                    </div>
+
+                    <div class="live-chat-input">
+                        <input type="text" id="live-chat-input" placeholder="Escribe en el chat..." maxlength="500">
+                        <button id="live-chat-send">Enviar</button>
+                    </div>
+
+                    <!-- Chat Options -->
+                    <div class="chat-options">
+                        <div class="chat-mode">
+                            <label>
+                                <input type="checkbox" id="slow-mode"> Modo lento
+                            </label>
+                        </div>
+                        <div class="chat-mode">
+                            <label>
+                                <input type="checkbox" id="followers-only"> Solo seguidores
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Tiempo Online:</span>
+                    <span class="stat-value" id="time-online">00:00:00</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Mensajes:</span>
+                    <span class="stat-value" id="message-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Conexiones:</span>
+                    <span class="stat-value" id="connection-count">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Ping:</span>
+                    <span class="stat-value" id="ping-value">127ms</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning Modal -->
+        <div id="warning-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>⚠️ ADVERTENCIA</h2>
+                <p>Estás a punto de acceder a contenido de la Dark Web.</p>
+                <p>Este sitio contiene material sensible y puede ser perturbador.</p>
+                <div class="modal-buttons">
+                    <button id="continue-btn" class="btn-danger">CONTINUAR</button>
+                    <button id="leave-btn" class="btn-safe">SALIR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script src="effects.js"></script>
+</body>
+</html> 

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Video Simple</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .video-test {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ff0000;
+        }
+        video {
+            width: 100%;
+            max-height: 500px;
+            border: 3px solid #ff0000;
+            border-radius: 10px;
+            margin: 20px 0;
+            background: #000;
+        }
+        .status {
+            background: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        button {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #cc0000;
+        }
+        .debug {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
+            text-align: left;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 Test Video Simple - red.mp4</h1>
+    
+    <div class="video-test">
+        <div class="status" id="status">Cargando video...</div>
+        
+        <video id="test-video" autoplay muted loop playsinline>
+            <source src="video.mp4/red.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+        
+        <div>
+            <button onclick="playVideo()">▶️ Reproducir</button>
+            <button onclick="pauseVideo()">⏸️ Pausar</button>
+            <button onclick="reloadVideo()">🔄 Recargar</button>
+        </div>
+        
+        <div class="status" id="info"></div>
+        <div class="debug" id="debug"></div>
+    </div>
+
+    <script>
+        const video = document.getElementById('test-video');
+        const status = document.getElementById('status');
+        const info = document.getElementById('info');
+        const debug = document.getElementById('debug');
+        
+        function updateStatus(message) {
+            status.textContent = message;
+            console.log(message);
+        }
+        
+        function updateInfo(message) {
+            info.textContent = message;
+        }
+        
+        function updateDebug(message) {
+            debug.innerHTML += message + '<br>';
+        }
+        
+        function playVideo() {
+            video.play().then(() => {
+                updateStatus('✅ Video iniciado manualmente');
+            }).catch((error) => {
+                updateStatus('❌ Error al reproducir: ' + error.message);
+            });
+        }
+        
+        function pauseVideo() {
+            video.pause();
+        }
+        
+        function reloadVideo() {
+            video.load();
+            updateStatus('🔄 Video recargado');
+        }
+        
+        // Debug information
+        updateDebug('=== DEBUG INFO ===');
+        updateDebug('Video element: ' + (video ? 'Found' : 'Not found'));
+        updateDebug('Video src: ' + video.src);
+        updateDebug('Video currentSrc: ' + video.currentSrc);
+        updateDebug('Video readyState: ' + video.readyState);
+        updateDebug('Video networkState: ' + video.networkState);
+        updateDebug('Video muted: ' + video.muted);
+        updateDebug('Video volume: ' + video.volume);
+        updateDebug('Video autoplay: ' + video.autoplay);
+        updateDebug('Video loop: ' + video.loop);
+        updateDebug('Video playsinline: ' + video.playsinline);
+        
+        // Event listeners
+        video.addEventListener('loadstart', () => {
+            updateStatus('🔄 Iniciando carga del video...');
+            updateDebug('Event: loadstart');
+        });
+        
+        video.addEventListener('loadedmetadata', () => {
+            updateStatus('✅ Metadatos cargados');
+            updateInfo(`📊 Duración: ${video.duration}s | 📐 Dimensiones: ${video.videoWidth}x${video.videoHeight}`);
+            updateDebug('Event: loadedmetadata');
+            updateDebug('Duration: ' + video.duration);
+            updateDebug('Dimensions: ' + video.videoWidth + 'x' + video.videoHeight);
+        });
+        
+        video.addEventListener('loadeddata', () => {
+            updateStatus('📦 Datos del video cargados');
+            updateDebug('Event: loadeddata');
+        });
+        
+        video.addEventListener('canplay', () => {
+            updateStatus('🎯 Video listo para reproducir');
+            updateDebug('Event: canplay');
+        });
+        
+        video.addEventListener('canplaythrough', () => {
+            updateStatus('🎬 Video puede reproducirse completamente');
+            updateDebug('Event: canplaythrough');
+        });
+        
+        video.addEventListener('play', () => {
+            updateStatus('▶️ Video reproduciéndose');
+            updateDebug('Event: play');
+        });
+        
+        video.addEventListener('pause', () => {
+            updateStatus('⏸️ Video pausado');
+            updateDebug('Event: pause');
+        });
+        
+        video.addEventListener('ended', () => {
+            updateStatus('🔄 Video terminado, reiniciando...');
+            updateDebug('Event: ended');
+        });
+        
+        video.addEventListener('error', (e) => {
+            updateStatus('❌ Error al cargar el video');
+            updateDebug('Event: error');
+            console.error('Video error:', e);
+            console.error('Error details:', video.error);
+            
+            let errorMessage = 'Error desconocido';
+            if (video.error) {
+                switch(video.error.code) {
+                    case 1:
+                        errorMessage = 'Video abortado';
+                        break;
+                    case 2:
+                        errorMessage = 'Error de red';
+                        break;
+                    case 3:
+                        errorMessage = 'Error de decodificación';
+                        break;
+                    case 4:
+                        errorMessage = 'Formato no soportado';
+                        break;
+                }
+            }
+            updateDebug('Error: ' + errorMessage);
+        });
+        
+        // Auto-play after page loads
+        setTimeout(() => {
+            if (video.paused) {
+                video.play().then(() => {
+                    updateStatus('✅ Autoplay exitoso');
+                    updateDebug('Autoplay: successful');
+                }).catch((error) => {
+                    updateStatus('⚠️ Autoplay falló: ' + error.message);
+                    updateDebug('Autoplay: failed - ' + error.message);
+                });
+            }
+        }, 1000);
+    </script>
+</body>
+</html> 
